@@ -1,0 +1,19 @@
+.fixed {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 3rem;
+  height: 3rem;
+  background-color: #495057;
+  border-radius: 6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+.fixed:hover {
+  background-color: #343a40;
+}

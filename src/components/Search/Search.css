@@ -1,0 +1,26 @@
+/* Search 스타일 */
+
+.search_wrapper {
+  /* 요소 중앙 정렬 */
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.search {
+  /* 크기 */
+  width: 600px;
+
+  padding: 1.5rem 1rem;
+
+  /* 테두리 처리 */
+  border: none;
+  outline: none;
+  border-radius: 5px;
+
+  /* 정렬 */
+  text-align: center;
+
+  /* 글꼴 */
+  font-size: 2rem;
+  font-weight: bold;
+}

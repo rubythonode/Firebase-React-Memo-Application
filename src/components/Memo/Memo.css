@@ -1,0 +1,26 @@
+.memowrapper {
+
+  /* 레이아웃 설정 */
+
+  display: inline-block;
+  width: 25%;
+  padding: 0.5rem;
+}
+
+h1 {
+  margin: 0;
+}
+.memo {
+  background-color: white;
+  padding-top: 100%;
+  position: relative;
+}
+
+.squre {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  bottom: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}

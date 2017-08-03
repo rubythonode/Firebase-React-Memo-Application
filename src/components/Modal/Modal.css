@@ -1,0 +1,55 @@
+
+
+.modalwrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  width: 400px;
+}
+
+.modal {
+  background-color: white;
+  box-shadow: 0.2px 0.2px 5px #555;
+}
+
+.modal-enter {
+    animation: slideDown .5s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.modal-leave {
+    animation: slideUp .5s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-100vh);
+  }
+  75% {
+      opacity: 1;
+      transform: translateY(25px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  25% {
+      opacity: 1;
+      transform: translateY(25px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh);
+  }
+}

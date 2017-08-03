@@ -1,0 +1,10 @@
+.screen {
+  position: fixed;
+  background-color: #212529;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9998;
+  opacity: 0.5;
+}
