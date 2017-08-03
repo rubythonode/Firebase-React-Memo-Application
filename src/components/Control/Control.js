@@ -22,17 +22,20 @@ class Control extends Component {
 
   render() {
     return (
-      <div className="controlwrapper">
+      <div>
         <input
           type="text"
           placeholder="메모를 입력하세요"
+          className="control"
           name="content"
           value={this.state.content}
           onChange={this.handleChange}
         />
 
-      <button onClick={() => { this.props.updateMemo(this.props.memo.id, this.state.content) }}>수정</button>
-      <button onClick={() => { this.props.removeMemo(this.props.memo.id) }}>삭제</button>
+      <div className="controlwrapper">
+        <div className="controlbtn" onClick={() => { this.props.updateMemo(this.props.memo.id, this.state.content) }}>수정</div>
+        <div className="controlbtn" onClick={() => { this.props.removeMemo(this.props.memo.id) }}>삭제</div>
+      </div>
       </div>
     );
   }
