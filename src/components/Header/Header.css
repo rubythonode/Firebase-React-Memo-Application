@@ -24,5 +24,15 @@
 
   /* 기타 설정 */
   cursor: pointer;
+  position: relative;
+}
 
+.toggle {
+  position: absolute;
+  left: 1rem;
+  transition: all 0.5s;
+}
+
+.toggle:hover {
+  transform: scale(1.1);
 }

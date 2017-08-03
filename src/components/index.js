@@ -19,6 +19,8 @@ import Dimmed from './Dimmed/Dimmed';
 
 import Control from './Control/Control';
 
+import Nav from './Nav/Nav';
+
 export {
   Memo,
   Create,
@@ -29,5 +31,6 @@ export {
   Modal,
   Fixed,
   Dimmed,
-  Control
+  Control,
+  Nav
 }

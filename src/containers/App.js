@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { Memo, Create, Search, Header, Container, MemoList, Modal, Fixed, Dimmed, Control } from '../components';
+import { Memo, Create, Search, Header, Container, MemoList, Modal, Fixed, Dimmed, Control, Nav } from '../components';
 import { List, Map } from 'immutable';
 
 class App extends Component {
@@ -12,6 +12,9 @@ class App extends Component {
       mode: '',
       visible: false,
       memo: Map({})
+    }),
+    nav: Map({
+      visible: false
     })
 
   }
@@ -46,6 +49,22 @@ class App extends Component {
     })
   }
 
+
+  navOpen = () => {
+    this.setState({
+      nav: Map({
+        visible: true
+      })
+    })
+  }
+
+  navClose = () => {
+    this.setState({
+      nav: Map({
+        visible: false
+      })
+    })
+  }
 
   modalOpen = (mode, memo) => {
     const { modal } = this.state;
@@ -142,7 +161,9 @@ class App extends Component {
     }
     return (
       <div>
-        <Header/>
+        <Header
+            navOpen={this.navOpen}
+          />
         <Container>
           <Search updateKeyword={this.updateKeyword}/>
           <MemoList>
@@ -176,12 +197,17 @@ class App extends Component {
             )
           }
         </Modal>
+        <Nav
+            navClose={this.navClose}
+            visible={this.state.nav.toJS().visible}
+          >
+          hello
+        </Nav>
         <Fixed
           modalOpen={this.modalOpen}
           />
-
         <Dimmed
-          visible={this.state.modal.toJS().visible}
+          visible={this.state.modal.toJS().visible || this.state.nav.toJS().visible}
           />
       </div>
     );
