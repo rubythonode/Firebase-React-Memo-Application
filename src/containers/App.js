@@ -4,7 +4,26 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Memo, Create, Search, Header, Container, MemoList, Modal, Fixed, Dimmed, Control, Nav } from '../components';
 import { List, Map } from 'immutable';
 
+// 환경 설정 객체 불러오기
+import config from '../config';
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    // 파이어베이스 설정 및 사용 데이터베이스 선택
+    this.app = firebase.initializeApp(config);
+    this.db = this.app.database().ref().child('memos');
+  }
+
+  // 웹 애플리케이션 상태
+
+  /*
+    memos: 메모가 담기는 배열
+    keyword: 사용자가 검색하는 키워드
+    modal: 모달창을 띄우기 위한 객체
+    nav: 슬라이드메뉴를 띄우기 위한 객체
+  */
   state = {
     memos: List(),
     keyword: '',
@@ -20,9 +39,12 @@ class App extends Component {
   }
 
   componentWillMount() {
-    const db = firebase.database().ref().child('memos');
-    db.on('child_added', snap => {
+
+    // 실시간 데이터 추가시
+    this.db.on('child_added', snap => {
       const { memos } = this.state;
+
+      // 데이터 추가
       this.setState({
         memos: memos.push(Map({
             id: snap.key,
@@ -31,17 +53,26 @@ class App extends Component {
       })
     });
 
-    db.on('child_removed', snap => {
+    // 실시간 데이터 삭제시
+    this.db.on('child_removed', snap => {
       const { memos } = this.state;
+
+      /*
+        삭제된 데이터 객체의 key 값과 메모의 id 값 비교 후 같지 않은 것만 배열에 담는다.
+        즉, 삭제될 데이터 빼고는 배열에 담긴다.
+      */
       this.setState({
         memos: memos.filter(item => item.toJS().id !== snap.key)
       })
     })
 
-    db.on('child_changed', snap => {
+    this.db.on('child_changed', snap => {
       const { memos } = this.state;
 
+      // 수정해야할 아이템의 인덱스를 찾는다.
       const index = memos.findIndex(memo => memo.toJS().id == snap.key)
+
+      // index 번째 아이템의 content를 수정된 content 값으로 변화시킨후 배열에 담는다.
       this.setState({
         memos: memos.setIn([index, 'content'], snap.val().content)
       });
@@ -49,77 +80,47 @@ class App extends Component {
     })
   }
 
+  // nav와 관련된 객체
 
-  navOpen = () => {
-    this.setState({
-      nav: Map({
-        visible: true
-      })
-    })
+  navHandle = {
+      // nav 열기
+      open: () => {
+        this.setState({
+          nav: Map({
+            visible: true
+          })
+        })
+      },
+      // nav 닫기
+      hide: () => {
+        this.setState({
+          nav: Map({
+            visible: false
+          })
+        })
+      }
+
   }
 
-  navClose = () => {
-    this.setState({
-      nav: Map({
-        visible: false
-      })
-    })
-  }
+  modalHandle = {
+    // modal 열기
+    open: (mode, memo) => {
+      const { modal } = this.state;
 
-  modalOpen = (mode, memo) => {
-    const { modal } = this.state;
-
-    this.setState({
-      modal: Map({
-        visible: true,
-        mode,
-        memo: Map({
-          id: memo.id,
-          content: memo.content
+      this.setState({
+        modal: Map({
+          visible: true,
+          mode,
+          memo: Map({
+            id: memo.id,
+            content: memo.content
+          })
         })
       })
-    });
-  }
+    },
 
-  modalClose = () => {
-    const { modal } = this.state;
-
-    this.setState({
-      modal: Map({
-        visible: false,
-        mode: 'none'
-      })
-    })
-  }
-
-  createMemo = (memo) => {
-    const db = firebase.database().ref().child('memos');
-    db.push().set({ content: memo });
-  }
-
-  removeMemo = (id) => {
-    firebase.database().ref('memos').child(id).remove();
-    const { modal } = this.state;
-
-    this.setState({
-      modal: Map({
-        visible: false,
-        mode: 'none'
-      })
-    })
-  }
-
-  updateMemo = (id, memo) => {
-    var database = firebase.database();
-    var memosRef = database.ref().child('memos');
-    if(memo != null) {
-      var update = {};
-
-      update[id] = {
-        content: memo
-      };
-
-      memosRef.update(update);
+    hide: () => {
+      const { modal } = this.state;
 
       this.setState({
         modal: Map({
@@ -128,7 +129,48 @@ class App extends Component {
         })
       })
     }
-    return;
+  }
+
+
+  // 메모 핸들링
+  memoHandle = {
+    // 메모 추가
+    createMemo: (memo) => {
+      this.db.push().set({ content: memo });
+    },
+
+    // 메모 ㅅㄱ제
+    removeMemo: (id) => {
+      firebase.database().ref('memos').child(id).remove();
+      const { modal } = this.state;
+
+      this.setState({
+        modal: Map({
+          visible: false,
+          mode: 'none'
+        })
+      })
+    },
+
+    updateMemo: (id, memo) => {
+      if(memo != null) {
+        var update = {};
+
+        update[id] = {
+          content: memo
+        };
+
+        this.db.update(update);
+
+        this.setState({
+          modal: Map({
+            visible: false,
+            mode: 'none'
+          })
+        })
+      }
+      return;
+    }
   }
 
   updateKeyword = (keyword) => {
@@ -138,9 +180,16 @@ class App extends Component {
   }
 
   render() {
+
+    // 핸들링 객체 모음
+    const {
+      navHandle,
+      modalHandle,
+      memoHandle
+    } = this;
+
     const { memos, keyword, modal: { visible, mode, memo } } = this.state;
 
-    // console.log("test : "+this.state.modal.toJS().mode);
     const memolist = (data) => {
       data = data.filter(
         (memo) => {
@@ -154,7 +203,7 @@ class App extends Component {
             memo={memo.toJS()}
             index={index}
             key={index}
-            onClick={() => { this.modalOpen('control', memo.toJS()) }}
+            onClick={() => { modalHandle.open('control', memo.toJS()) }}
           />
         )
       })
@@ -162,7 +211,7 @@ class App extends Component {
     return (
       <div>
         <Header
-            navOpen={this.navOpen}
+            navOpen={navHandle.open}
           />
         <Container>
           <Search updateKeyword={this.updateKeyword}/>
@@ -179,32 +228,31 @@ class App extends Component {
 
         </Container>
         <Modal
-          modalClose={this.modalClose}
+          modalClose={modalHandle.hide}
           visible={this.state.modal.toJS().visible}
         >
           {
             this.state.modal.toJS().mode == 'create' ? (
               <Create
-                createMemo={this.createMemo}
-                modalClose={this.modalClose}
+                createMemo={memoHandle.createMemo}
+                modalClose={modalHandle.hide}
                 />
             ) : (
               <Control
                   memo={this.state.modal.toJS().memo}
-                  removeMemo={this.removeMemo}
-                  updateMemo={this.updateMemo}
+                  removeMemo={memoHandle.removeMemo}
+                  updateMemo={memoHandle.updateMemo}
                 />
             )
           }
         </Modal>
         <Nav
-            navClose={this.navClose}
+            navClose={navHandle.hide}
             visible={this.state.nav.toJS().visible}
           >
-          hello
         </Nav>
         <Fixed
-          modalOpen={this.modalOpen}
+          modalOpen={modalHandle.open}
           />
         <Dimmed
           visible={this.state.modal.toJS().visible || this.state.nav.toJS().visible}
