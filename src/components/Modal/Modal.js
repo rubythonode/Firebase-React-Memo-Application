@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import onClickOutside from 'react-onclickoutside';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import PropTypes from 'prop-types';
 import './Modal.css';
 
 class Modal extends Component {
@@ -30,7 +31,16 @@ class Modal extends Component {
       </div>
     );
   }
+}
 
+Modal.PropTypes = {
+  visible: PropTypes.bool,
+  modalClose: PropTypes.func
+}
+
+Modal.defaultProps = {
+  visible: false,
+  modalClose: () => { console.error('modalClose not defined') }
 }
 
 export default onClickOutside(Modal);

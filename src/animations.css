@@ -1,17 +1,19 @@
-.example-enter {
+/* 메모 리스트 애니메이션 */
+
+.init-enter {
   opacity: 0.01;
 }
 
-.example-enter.example-enter-active {
+.init-enter.init-enter-active {
   opacity: 1;
   transition: opacity 500ms ease-in;
 }
 
-.example-leave {
+.init-leave {
   opacity: 1;
 }
 
-.example-leave.example-leave-active {
+.init-leave.init-leave-active {
   opacity: 0.01;
   transition: opacity 300ms ease-in;
 }

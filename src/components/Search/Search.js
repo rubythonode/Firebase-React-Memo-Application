@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './Search.css';
 
 const Search = ({updateKeyword}) => (
@@ -12,5 +13,13 @@ const Search = ({updateKeyword}) => (
     />
   </div>
 )
+
+Search.PropTypes = {
+  updateKeyword: PropTypes.func
+}
+
+Search.defaultProps = {
+  updateKeyword: () => { console.error('updateKeyword not defined') }
+}
 
 export default Search;

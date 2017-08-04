@@ -1,23 +1,37 @@
+.controlwrapper {
+  /* 디스 플레이 설정 */
+  display: flex;
+}
+
 .control {
-  border: none;
+  /* 크기 */
   width: 100%;
-  outline: none;
   padding: 1rem;
+
+  /* 테두리 */
+  border: none;
+  outline: none;
+
+  /* 텍스트 관련 */
   font-size: 2rem;
   text-align: center;
   font-weight: bold;
   cursor: pointer;
 }
 
-.controlwrapper {
-  display: flex;
-}
 
 .controlbtn {
+  /* 디스플레이 설정 */
   flex: 1;
   text-align: center;
+
+  /* 크기 */
   padding: 1rem;
+
+  /* 텍스트 관련 */
   font-weight: bold;
+
+  /* 색상 */
   background-color: #fa5252;
   color: white;
 }

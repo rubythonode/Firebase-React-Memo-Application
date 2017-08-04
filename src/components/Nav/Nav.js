@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import onClickOutside from 'react-onclickoutside';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import PropTypes from 'prop-types';
 import './Nav.css';
 
 class Nav extends Component {
@@ -14,11 +15,11 @@ class Nav extends Component {
 
 
   render() {
-    const { visible,children } = this.props;
+    const { visible, children } = this.props;
     return (
       <div className="navwrapper">
         <ReactCSSTransitionGroup
-          transitionName="nav"
+          transitionName="slider"
           transitionEnterTimeout={500}
           transitionLeaveTimeout={300}>
         {
@@ -31,10 +32,17 @@ class Nav extends Component {
         </ReactCSSTransitionGroup>
       </div>
     );
-
-
   }
+}
 
+
+Nav.PropTypes = {
+  visible: PropTypes.bool
+}
+
+Nav.defaultProps = {
+  visible: false,
+  navClose: () => { console.error('navClose not defined') }
 }
 
 export default onClickOutside(Nav);

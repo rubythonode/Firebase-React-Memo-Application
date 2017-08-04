@@ -1,22 +1,32 @@
 .navwrapper{
+  /* 위치 지정 */
   position: fixed;
   top: 0;
   left: 0;
+
+  /* 기타 */
   z-index: 9999;
 }
 
 .nav {
+  /* 크기 지정
+    nav 크기와 높이를 가져야...
+  */
+
   width: 250px;
   height: 100vh;
   background-color: white;
 }
 
-.nav-enter {
+
+/* 애니메이션 효과 */
+
+.slider-enter {
     animation: slideRight .5s ease-in-out;
     animation-fill-mode: forwards;
 }
 
-.nav-leave {
+.slider-leave {
     animation: slideLeft .5s ease-in-out;
     animation-fill-mode: forwards;
 }

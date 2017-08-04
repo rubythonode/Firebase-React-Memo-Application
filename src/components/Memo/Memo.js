@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import './Memo.css';
 
-const Memo = ({memo, index, removeMemo, updateMemo, onClick}) => (
+const Memo = ({memo, removeMemo, updateMemo, onClick}) => (
   <div className="memowrapper" onClick={onClick}>
       <div className="memo">
         <div className="squre">
@@ -17,17 +17,16 @@ Memo.PropTypes = {
     content: PropTypes.string,
     id: PropTypes.string
   }),
-  index: PropTypes.number,
   removeMemo: PropTypes.func,
-  updateMemo: PropTypes.func
+  updateMemo: PropTypes.func,
+  onClick: PropTypes.func
 }
 
 Memo.defaultProps = {
   memo: {},
-  index: -1,
-  toggle: false,
   removeMemo: () => { console.error('removeMemo not defined') },
   toggleMemo: () => { console.error('toggleMemo not defined') },
+  onClick: () => { console.error('onClick not defined') },
 }
 
 export default Memo;

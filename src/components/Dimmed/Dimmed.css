@@ -1,10 +1,16 @@
+
 .screen {
+  /* 위치 */
   position: fixed;
-  background-color: #212529;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+
+  /* 색상  */
+  background-color: #212529;
+
+  /* 기타 */
   z-index: 10;
   opacity: 0.5;
 }

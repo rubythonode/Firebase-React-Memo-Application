@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import './Header.css';
 
-class Header extends Component {
+const Header = ({ navOpen }) => (
+  <div className="header">
+    <h3>MEMO</h3>
+    <div className="toggle" onClick={() => { navOpen() }}>&equiv;</div>
+  </div>
+)
 
-  render() {
-    return (
-      <div className="header">
-        <h3>MEMO</h3>
-        <div className="toggle" onClick={() => { this.props.navOpen() }}>&equiv;</div>
-      </div>
-    );
-  }
-
+Header.PropTypes = {
+  navOpen: PropTypes.func
 }
+
+Header.defaultProps = {
+  navOpen: () => { console.error('navOpen not defined') }
+}
+
 
 export default Header;

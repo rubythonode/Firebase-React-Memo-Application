@@ -1,18 +1,22 @@
 
-
 .modalwrapper {
+  /* 위치 수평 수직 정렬 */
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  /* 기타 */
   z-index: 9999;
-  width: 400px;
 }
 
 .modal {
+  /* 색상 및 그림자 효과 */
   background-color: white;
   box-shadow: 0.2px 0.2px 5px #555;
 }
+
+/* 애니메이션 효과 */
 
 .modal-enter {
     animation: slideDown .5s ease-in-out;
